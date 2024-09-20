@@ -1,18 +1,30 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+using UnityEngine;
 
-# Other files and folders
-.settings/
+public class PlayerController : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+    public GameObject weaponPrefab;
+    public Transform shootPoint;
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+    void Update()
+    {
+        MovePlayer();
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot();
+        }
+    }
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+    void MovePlayer()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 movement = new Vector3(horizontal, 0, vertical) * moveSpeed * Time.deltaTime;
+        transform.Translate(movement);
+    }
+
+    void Shoot()
+    {
+        Instantiate(weaponPrefab, shootPoint.position, shootPoint.rotation);
+    }
+}
